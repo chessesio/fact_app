@@ -22,4 +22,24 @@ def connect_db():
 def disconnect_db(err=None):
 	DBSingelton.getInstance().close()
 
+@app.route('/facts/<int:id>', methods=['DELETE'])
+def delete_fact(id):
+	pass
+
+@app.route('/facts/<int:id>', methods=['POST'])
+def add_fact(id):
+	pass
+
+@app.route('/facts/<int:id>', methods=['PUT'])
+def update_fact(id):
+	pass
+
+@app.route('/facts/<int:id>',methods=['GET'])
+def view_single_fact(id):
+	pass
+
+@app.route('/facts', methods=['GET'])
+def view_all_facts():
+	pass
+
 app.secret_key = os.environ.get("FLASK_SECRET_KEY")
