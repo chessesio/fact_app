@@ -7,7 +7,7 @@ db_host = os.environ.get("DB_HOST")
 db_user = os.environ.get("DB_USER")
 db_password = os.environ.get("DB_PASSWORD")
 
-class DBSingelton():
+class DBSingleton():
 	db = None
 
 	@classmethod
@@ -22,5 +22,5 @@ class DBSingelton():
 
 class BaseModel(Model):
 	class Meta:
-		database = DBSingelton.getInstance()
+		database = DBSingleton.getInstance()
 	
