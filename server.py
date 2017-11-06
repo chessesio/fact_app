@@ -3,7 +3,7 @@ sys.path.append(os.getcwd())
 
 from flask import Flask, render_template, redirect, session, request
 from models.fact_model import FactModel
-from models.base_model import DBSingelton
+from models.base_model import DBSingleton
 
 app = Flask(__name__)
 
@@ -16,11 +16,11 @@ def initialize_tables():
 
 @app.before_request
 def connect_db():
-	DBSingelton.getInstance().connect()
+	DBSingleton.getInstance().connect()
 
 @app.teardown_request
 def disconnect_db(err=None):
-	DBSingelton.getInstance().close()
+	DBSingleton.getInstance().close()
 
 @app.route('/facts/<int:id>', methods=['DELETE'])
 def delete_fact(id):
@@ -35,11 +35,21 @@ def update_fact(id):
 	pass
 
 @app.route('/facts/<int:id>',methods=['GET'])
-def view_single_fact(id):
-	pass
+def get_fact(id):
+	query = FactModel.select().where(FactModel.id == id)
+
+	if query.count() != 1:
+		return "error", "400 Bad Request"
+
+	else:
+		fact_record = query.get()
+
+		return "My fact is {}".fomart(fact_record.fact)
 
 @app.route('/facts', methods=['GET'])
 def view_all_facts():
-	pass
+	query = FactModel.select().dicts()
+
+	return render_template('example_template.html', query=query)
 
 app.secret_key = os.environ.get("FLASK_SECRET_KEY")

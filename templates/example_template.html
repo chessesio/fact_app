@@ -3,3 +3,6 @@
 {% block content %}
 Let the bodies hit the floor
 {% endblock %}
+{% for fact in query %}
+{{fact.items()}}
+{% endfor %}
